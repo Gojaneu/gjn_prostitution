@@ -90,18 +90,18 @@ Citizen.CreateThread(function()
         local inZone = false
         Citizen.Wait(5)
         local coords, letSleep = GetEntityCoords(PlayerPedId()), true
-        for k, v in pairs(Config.LocationProstitution) do
-            if v.target then
-                target:AddBoxZone(k .. "_Prostitution_gojan", v.coords, 1.0, 1.0, {
-                    name = k .. "_Prostitution_gojan",
-                    heading = v.heading,
+        for i = 1, #Config.Locationprostitution do
+            if Config.Locationprostitution[i].target then
+                target:AddBoxZone(i .. "_prostitution_gojan", Config.Locationprostitution[i].coords, 1.0, 1.0, {
+                    name = i .. "_prostitution_gojan",
+                    heading = Config.Locationprostitution[i].heading,
                     debugPoly = Config.Debug,
-                    minZ = v.coords.z - 1.5,
-                    maxZ = v.coords.z + 0.5
+                    minZ = Config.Locationprostitution[i].coords.z - 1.5,
+                    maxZ = Config.Locationprostitution[i].coords.z + 0.5
                 }, {
                     options = {
                         {
-                            event = 'gjn_Prostitution:OpenPimpMenu',
+                            event = 'gjn_prostitution:OpenPimpMenu',
                             icon = 'fas fa-person',
                             label = locale("prostitution")
                         }
@@ -116,7 +116,7 @@ Citizen.CreateThread(function()
                         TextUIShow(locale("prostitution"))
 
                         if IsControlJustReleased(0, Keys['E']) then
-                            TriggerEvent("gjn_Prostitution:OpenPimpMenu")
+                            TriggerEvent("gjn_prostitution:OpenPimpMenu")
                         end
                     end
                 end
@@ -135,8 +135,8 @@ Citizen.CreateThread(function()
     end
 end)
 
-RegisterNetEvent("gjn_Prostitution:OpenPimpMenu")
-AddEventHandler("gjn_Prostitution:OpenPimpMenu", function()
+RegisterNetEvent("gjn_prostitution:OpenPimpMenu")
+AddEventHandler("gjn_prostitution:OpenPimpMenu", function()
     lib.registerContext({
         id = 'OpenPimpMenu',
         title = locale("prostitution"),
@@ -144,30 +144,30 @@ AddEventHandler("gjn_Prostitution:OpenPimpMenu", function()
             {
                 title = 'Cathrine',
                 description = locale("price") .. ': 200 USD',
-                event = 'gjn_Prostitution:ChooseCathrine'
+                event = 'gjn_prostitution:ChooseCathrine'
             },
             {
                 title = 'Tatiana',
                 description = locale("price") .. ': 200 USD',
-                event = 'gjn_Prostitution:ChooseTatiana'
+                event = 'gjn_prostitution:ChooseTatiana'
             },
             {
                 title = 'Bootylicious',
                 description = locale("price") .. ': 200 USD',
-                event = 'gjn_Prostitution:ChooseBootylicious'
+                event = 'gjn_prostitution:ChooseBootylicious'
             },
             {
                 title = 'Vennesa',
                 description = locale("price") .. ': 200 USD',
-                event = 'gjn_Prostitution:ChooseVennesa'
+                event = 'gjn_prostitution:ChooseVennesa'
             }
         }
     })
     lib.showContext('OpenPimpMenu')
 end)
 
-RegisterNetEvent("gjn_Prostitution:OpenHookerMenu")
-AddEventHandler("gjn_Prostitution:OpenHookerMenu", function()
+RegisterNetEvent("gjn_prostitution:OpenHookerMenu")
+AddEventHandler("gjn_prostitution:OpenHookerMenu", function()
     lib.registerContext({
         id = 'OpenHookerMenu',
         title = 'Prostitution',
@@ -175,7 +175,7 @@ AddEventHandler("gjn_Prostitution:OpenHookerMenu", function()
             {
                 title = 'Blowjob',
                 description = locale("price") .. ': 200 USD',
-                event = 'gjn_Prostitution:ChooseBlowjob',
+                event = 'gjn_prostitution:ChooseBlowjob',
                 args = {
                     blowjob = true
                 }
@@ -183,7 +183,7 @@ AddEventHandler("gjn_Prostitution:OpenHookerMenu", function()
             {
                 title = 'Sex',
                 description = locale("price") .. ': 200 USD',
-                event = 'gjn_Prostitution:ChooseSex',
+                event = 'gjn_prostitution:ChooseSex',
                 args = {
                     sex = true
                 }
@@ -193,53 +193,53 @@ AddEventHandler("gjn_Prostitution:OpenHookerMenu", function()
     lib.showContext('OpenHookerMenu')
 end)
 
-RegisterNetEvent("gjn_Prostitution:ChooseCathrine")
-AddEventHandler("gjn_Prostitution:ChooseCathrine", function()
-    TriggerEvent("gjn_Prostitution:ChosenHooker", "s_f_y_hooker_01") -- Cathrine
+RegisterNetEvent("gjn_prostitution:ChooseCathrine")
+AddEventHandler("gjn_prostitution:ChooseCathrine", function()
+    TriggerEvent("gjn_prostitution:ChosenHooker", "s_f_y_hooker_01") -- Cathrine
     Notify("info", "", locale("prostitute_gps"))
     OnRouteToHooker = true
 end)
 
-RegisterNetEvent("gjn_Prostitution:ChooseTatiana")
-AddEventHandler("gjn_Prostitution:ChooseTatiana", function()
-    TriggerEvent("gjn_Prostitution:ChosenHooker", "s_f_y_hooker_02")
+RegisterNetEvent("gjn_prostitution:ChooseTatiana")
+AddEventHandler("gjn_prostitution:ChooseTatiana", function()
+    TriggerEvent("gjn_prostitution:ChosenHooker", "s_f_y_hooker_02")
     Notify("info", "", locale("prostitute_gps"))
     OnRouteToHooker = true
 end)
 
-RegisterNetEvent("gjn_Prostitution:ChooseBootylicious")
-AddEventHandler("gjn_Prostitution:ChooseBootylicious", function()
-    TriggerEvent("gjn_Prostitution:ChosenHooker", "s_f_y_hooker_03")
+RegisterNetEvent("gjn_prostitution:ChooseBootylicious")
+AddEventHandler("gjn_prostitution:ChooseBootylicious", function()
+    TriggerEvent("gjn_prostitution:ChosenHooker", "s_f_y_hooker_03")
     Notify("info", "", locale("prostitute_gps"))
     OnRouteToHooker = true
 end)
 
-RegisterNetEvent("gjn_Prostitution:ChooseVennesa")
-AddEventHandler("gjn_Prostitution:ChooseVennesa", function()
-    TriggerEvent("gjn_Prostitution:ChosenHooker", "s_f_y_hooker_02")
+RegisterNetEvent("gjn_prostitution:ChooseVennesa")
+AddEventHandler("gjn_prostitution:ChooseVennesa", function()
+    TriggerEvent("gjn_prostitution:ChosenHooker", "s_f_y_hooker_02")
     Notify("info", "", locale("prostitute_gps"))
     OnRouteToHooker = true
 end)
 
-RegisterNetEvent("gjn_Prostitution:ChooseBlowjob")
-AddEventHandler("gjn_Prostitution:ChooseBlowjob", function(data)
+RegisterNetEvent("gjn_prostitution:ChooseBlowjob")
+AddEventHandler("gjn_prostitution:ChooseBlowjob", function(data)
     HookerInCar = false
-    TriggerServerEvent("gjn_Prostitution:pay", true)
+    TriggerServerEvent("gjn_prostitution:pay", true)
 end)
 
-RegisterNetEvent("gjn_Prostitution:ChooseSex")
-AddEventHandler("gjn_Prostitution:ChooseSex", function(data)
+RegisterNetEvent("gjn_prostitution:ChooseSex")
+AddEventHandler("gjn_prostitution:ChooseSex", function(data)
     HookerInCar = false
-    TriggerServerEvent("gjn_Prostitution:pay", false)
+    TriggerServerEvent("gjn_prostitution:pay", false)
 end)
 
-RegisterNetEvent("gjn_Prostitution:noMoney")
-AddEventHandler("gjn_Prostitution:noMoney", function()
+RegisterNetEvent("gjn_prostitution:noMoney")
+AddEventHandler("gjn_prostitution:noMoney", function()
     HookerInCar = true
 end)
 
-RegisterNetEvent("gjn_Prostitution:startBlowjob")
-AddEventHandler("gjn_Prostitution:startBlowjob", function()
+RegisterNetEvent("gjn_prostitution:startBlowjob")
+AddEventHandler("gjn_prostitution:startBlowjob", function()
     local ped = PlayerPedId()
     hookerAnim(Hooker, "oddjobs@towing", "f_blow_job_loop")
     playerAnim(ped, "oddjobs@towing", "m_blow_job_loop")
@@ -263,8 +263,8 @@ AddEventHandler("gjn_Prostitution:startBlowjob", function()
     HookerInCar = true
 end)
 
-RegisterNetEvent("gjn_Prostitution:startSex")
-AddEventHandler("gjn_Prostitution:startSex", function()
+RegisterNetEvent("gjn_prostitution:startSex")
+AddEventHandler("gjn_prostitution:startSex", function()
     local ped = PlayerPedId()
     hookerAnim(Hooker, "mini@prostitutes@sexlow_veh", "low_car_sex_loop_female")
     playerAnim(ped, "mini@prostitutes@sexlow_veh", "low_car_sex_loop_player")
@@ -289,7 +289,7 @@ AddEventHandler("gjn_Prostitution:startSex", function()
 end)
 
 Citizen.CreateThread(function()
-    for _, v in pairs(Config.LocationProstitution) do
+    for _, v in pairs(Config.Locationprostitution) do
         loadmodel(v.model)
         loaddict("mini@strip_club@idles@bouncer@base")
 
@@ -322,8 +322,8 @@ function CreateHooker(model)
     SetNewWaypoint(Config.Mistaprodevky[spawn].x, Config.Mistaprodevky[spawn].y)
 end
 
-RegisterNetEvent("gjn_Prostitution:ChosenHooker")
-AddEventHandler("gjn_Prostitution:ChosenHooker", function(model)
+RegisterNetEvent("gjn_prostitution:ChosenHooker")
+AddEventHandler("gjn_prostitution:ChosenHooker", function(model)
     if HookerSpawned then
         Notify('error', '', locale("alredy_chosen_hooker"))
     else
@@ -372,7 +372,7 @@ AddEventHandler("gjn_Prostitution:ChosenHooker", function(model)
                             TextUIShow(locale("choose"))
                             if IsControlJustPressed(0, Keys["E"]) then
                                 PlayAmbientSpeech1(Hooker, "Hooker_Offer_Service", "Speech_Params_Force_Shouted_Clear")
-                                TriggerEvent("gjn_Prostitution:OpenHookerMenu")
+                                TriggerEvent("gjn_prostitution:OpenHookerMenu")
                             end
                             if IsControlJustPressed(0, Keys["H"]) then
                                 HookerInCar = false

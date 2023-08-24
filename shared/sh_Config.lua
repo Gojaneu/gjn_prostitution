@@ -21,7 +21,7 @@ Config.SexPrice	= 400
 
 -- Blips
 Config.Blips = {
-    --[[Prostitution = {                                    -- do not use same value twice (will result in overwriting of blip)
+    --[[prostitution = {                                    -- do not use same value twice (will result in overwriting of blip)
         BlipCoords = vec3(435.0588, -982.0530, 30.6896), -- Blip coords
         Sprite = 20,                                     -- Blip Icon
         Display = 4,                                     -- keep 4
@@ -32,7 +32,7 @@ Config.Blips = {
     },--]]
 }
 
-Config.LocationProstitution = {
+Config.Locationprostitution = {
 	{
 		coords = vec3(130.43, -1324.84, 28.21),
 		name = "Pimp",
