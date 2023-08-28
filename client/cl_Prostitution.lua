@@ -84,62 +84,30 @@ local HookerSpawned   = false
 local OnRouteToHooker = false
 local HookerInCar     = false
 
-Citizen.CreateThread(function()
-    local alreadyEnteredZone = false
-    while true do
-        local inZone = false
-        Citizen.Wait(5)
-        local coords, letSleep = GetEntityCoords(PlayerPedId()), true
-        for i = 1, #Config.Locationprostitution do
-            if Config.Locationprostitution[i].target then
-                target:AddBoxZone(i .. "_prostitution_gojan", Config.Locationprostitution[i].coords, 1.0, 1.0, {
-                    name = i .. "_prostitution_gojan",
-                    heading = Config.Locationprostitution[i].heading,
-                    debugPoly = Config.Debug,
-                    minZ = Config.Locationprostitution[i].coords.z - 1.5,
-                    maxZ = Config.Locationprostitution[i].coords.z + 0.5
-                }, {
-                    options = {
-                        {
-                            event = 'gjn_prostitution:OpenPimpMenu',
-                            icon = 'fas fa-person',
-                            label = locale("prostitution")
-                        }
-                    },
-                    distance = 1.5
-                })
-            else
-                for k, v in pairs(Config.Zones) do
-                    if GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < Config.DrawDistance and k == 'Pimp' then
-                        inZone   = true
-                        letSleep = false
-                        TextUIShow(locale("prostitution"))
-
-                        if IsControlJustReleased(0, Keys['E']) then
-                            TriggerEvent("gjn_prostitution:OpenPimpMenu")
-                        end
-                    end
-                end
-            end
-        end
-        if letSleep then
-            Citizen.Wait(1000)
-        end
-        if inZone and not alreadyEnteredZone then
-            alreadyEnteredZone = true
-        end
-        if not inZone and alreadyEnteredZone then
-            alreadyEnteredZone = false
-            TextUIHide()
-        end
-    end
-end)
+for i = 1, #Config.Locationprostitution do
+    target:AddBoxZone(i .. "_prostitution_gojan", Config.Locationprostitution[i].coords, 1.0, 1.0, {
+        name = i .. "_prostitution_gojan",
+        heading = Config.Locationprostitution[i].heading,
+        debugPoly = Config.Debug,
+        minZ = Config.Locationprostitution[i].coords.z - 1.5,
+        maxZ = Config.Locationprostitution[i].coords.z + 0.5
+    }, {
+        options = {
+            {
+                event = 'gjn_prostitution:OpenPimpMenu',
+                icon = 'fas fa-person',
+                label = locale("prostitution")
+            }
+        },
+        distance = 1.5
+    })
+end
 
 RegisterNetEvent("gjn_prostitution:OpenPimpMenu")
 AddEventHandler("gjn_prostitution:OpenPimpMenu", function()
     lib.registerContext({
         id = 'OpenPimpMenu',
-        title = locale("prostitution"),
+        title = "Menu",
         options = {
             {
                 title = 'Cathrine',

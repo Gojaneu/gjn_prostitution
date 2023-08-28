@@ -1,11 +1,11 @@
 {
-    "alredy_chosen_hooker": "You have allready chosen a hooker!",
-    "price": "Price",
-    "you_paid": "You paid",
-    "not_enough_money": "You do not have enough money",
-    "choose": "[E] Services  \n[H] Get out!",
-    "give_signal_girl": "[E] Give signal to the girl",
-    "somewhere_we_wont_be_disturbed": "Go somewhere where we won't be disturbed",
-    "prostitution": "Prostitution",
-    "prostitute_gps": "I have the prostitute in GPS, go pick her up."
+    "alredy_chosen_hooker": "Už jste si vybrali šlapku!",
+    "price": "Cena",
+    "you_paid": "Zaplatil/a jste",
+    "not_enough_money": "Nemáte dostatek peněz",
+    "choose": "[E] Služby \n[H] Vypadni!",
+    "give_signal_girl": "[E] Dejte dívce signál",
+    "somewhere_we_wont_be_disturbed": "někde, kde nebudeme rušení",
+    "prostitution": "Promluvit si",
+    "prostitute_gps": "Máš prostitutku v GPS, jdi ji vyzvednout."
 }

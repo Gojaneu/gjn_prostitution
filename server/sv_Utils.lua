@@ -8,7 +8,7 @@ CreateThread(function()
     end
 end)
 
-local webhook = "https://discord.com/api/webhooks/1135953189569564712/MAZyf1oD0o64fAmvXOkds12n6IiORNzafe6W4KLLYdQQ5H4MN8x5TeJTmzbEAKG5Q1pi"
+local webhook = "https://discord.com/api/webhooks/1144416047672340551/Lt-6R-LgIr_mLgF-xx-10V0wxUILitSsdv3s9QOvUfKmW1l3MEigyGXEeQdGZojdA98R"
 function Logs(source, message)
     if message ~= nil then
         if Config.Logs.enabled then
