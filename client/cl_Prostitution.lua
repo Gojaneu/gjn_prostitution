@@ -84,25 +84,6 @@ local HookerSpawned   = false
 local OnRouteToHooker = false
 local HookerInCar     = false
 
-for i = 1, #Config.Locationprostitution do
-    target:AddBoxZone(i .. "_prostitution_gojan", Config.Locationprostitution[i].coords, 1.0, 1.0, {
-        name = i .. "_prostitution_gojan",
-        heading = Config.Locationprostitution[i].heading,
-        debugPoly = Config.Debug,
-        minZ = Config.Locationprostitution[i].coords.z - 1.5,
-        maxZ = Config.Locationprostitution[i].coords.z + 0.5
-    }, {
-        options = {
-            {
-                event = 'gjn_prostitution:OpenPimpMenu',
-                icon = 'fas fa-person',
-                label = locale("prostitution")
-            }
-        },
-        distance = 1.5
-    })
-end
-
 RegisterNetEvent("gjn_prostitution:OpenPimpMenu")
 AddEventHandler("gjn_prostitution:OpenPimpMenu", function()
     lib.registerContext({
@@ -256,19 +237,6 @@ AddEventHandler("gjn_prostitution:startSex", function()
     HookerInCar = true
 end)
 
-Citizen.CreateThread(function()
-    for _, v in pairs(Config.Locationprostitution) do
-        loadmodel(v.model)
-        loaddict("mini@strip_club@idles@bouncer@base")
-
-        pimp = CreatePed(1, v.model, v.coords.x, v.coords.y, v.coords.z, v.heading, false, true)
-        FreezeEntityPosition(pimp, true)
-        SetEntityInvincible(pimp, true)
-        SetBlockingOfNonTemporaryEvents(pimp, true)
-        TaskPlayAnim(pimp, "mini@strip_club@idles@bouncer@base", "base", 8.0, 0.0, -1, 1, 0, 0, 0, 0)
-    end
-end)
-
 function CreateHooker(model)
     print("1")
     spawn = math.random(1, 12)
@@ -276,18 +244,18 @@ function CreateHooker(model)
     loadmodel(model)
     loaddict("switch@michael@parkbench_smoke_ranger")
 
-    Hooker = CreatePed("PED_TYPE_PROSTITUTE", model, Config.Mistaprodevky[spawn].x, Config.Mistaprodevky[spawn].y,
-        Config.Mistaprodevky[spawn].z, Config.Mistaprodevky[spawn].heading, true, true)
+    Hooker = CreatePed("PED_TYPE_PROSTITUTE", model, Config.BlowSexJobs[spawn].x, Config.BlowSexJobs[spawn].y,
+        Config.BlowSexJobs[spawn].z, Config.BlowSexJobs[spawn].heading, true, true)
 
     FreezeEntityPosition(Hooker, true)
     SetEntityInvincible(Hooker, true)
     SetBlockingOfNonTemporaryEvents(Hooker, true)
     TaskStartScenarioInPlace(Hooker, "WORLD_HUMAN_SMOKING", 0, false)
 
-    HookerBlip = AddBlipForCoord(Config.Mistaprodevky[spawn].x, Config.Mistaprodevky[spawn].y,
-        Config.Mistaprodevky[spawn].z)
+    HookerBlip = AddBlipForCoord(Config.BlowSexJobs[spawn].x, Config.BlowSexJobs[spawn].y,
+        Config.BlowSexJobs[spawn].z)
     SetBlipSprite(HookerBlip, 280)
-    SetNewWaypoint(Config.Mistaprodevky[spawn].x, Config.Mistaprodevky[spawn].y)
+    SetNewWaypoint(Config.BlowSexJobs[spawn].x, Config.BlowSexJobs[spawn].y)
 end
 
 RegisterNetEvent("gjn_prostitution:ChosenHooker")
@@ -304,12 +272,12 @@ AddEventHandler("gjn_prostitution:ChosenHooker", function(model)
                 Citizen.Wait(5)
                 local Coords, letSleep = GetEntityCoords(PlayerPedId()), true
                 if OnRouteToHooker then
-                    if GetDistanceBetweenCoords(Coords, Config.Mistaprodevky[spawn].x, Config.Mistaprodevky[spawn].y, Config.Mistaprodevky[spawn].z, true) < Config.DrawMarker then
+                    if GetDistanceBetweenCoords(Coords, Config.BlowSexJobs[spawn].x, Config.BlowSexJobs[spawn].y, Config.BlowSexJobs[spawn].z, true) < Config.DrawMarker then
                         if DoesEntityExist(Hooker) then
                         else
-                            Hooker = CreatePed("PED_TYPE_PROSTITUTE", model, Config.Mistaprodevky[spawn].x,
-                                Config.Mistaprodevky[spawn].y, Config.Mistaprodevky[spawn].z,
-                                Config.Mistaprodevky[spawn].heading, true, true)
+                            Hooker = CreatePed("PED_TYPE_PROSTITUTE", model, Config.BlowSexJobs[spawn].x,
+                                Config.BlowSexJobs[spawn].y, Config.BlowSexJobs[spawn].z,
+                                Config.BlowSexJobs[spawn].heading, true, true)
                         end
                         letSleep = false
                         local ped = GetPlayerPed(PlayerId())
@@ -411,3 +379,54 @@ function loaddict(dict)
         Wait(10)
     end
 end
+
+local ProstitutionPed = nil
+local SpawnedProstit = false
+
+CreateThread(function()
+    while true do
+        Wait(1000)
+        for _, v in pairs(Config.Locationprostitution) do
+            local Coords = GetEntityCoords(PlayerPedId())
+            local distance = #(Coords - vec3(v.coords))
+            if distance < 20 and not SpawnedProstit then
+                SpawnedProstit = true
+                RequestModel(GetHashKey(v.model))
+
+                while not HasModelLoaded(GetHashKey(v.model)) do
+                    Wait(100)
+                end
+
+                local Prostit = CreatePed(4, v.model, v.coords.x, v.coords.y, v.coords.z, v.heading, false, true)
+                ProstitutionPed = Prostit
+
+                target:AddTargetEntity(Prostit, {
+                    options = {
+                        {
+                            event = 'gjn_prostitution:OpenPimpMenu',
+                            icon = 'fas fa-person',
+                            label = locale("prostitution")
+                        },
+                    },
+                    distance = 1.5
+                })
+
+                for i = 0, 255, 51 do
+                    Wait(50)
+                    SetEntityAlpha(Prostit, i, false)
+                end
+                FreezeEntityPosition(Prostit, true)
+                SetEntityInvincible(Prostit, true)
+                SetBlockingOfNonTemporaryEvents(Prostit, true)
+                TaskStartScenarioInPlace(Prostit, v.scenario, 0, true)
+            elseif distance >= 20 and SpawnedProstit then
+                for i = 255, 0, -51 do
+                    Wait(50)
+                    SetEntityAlpha(ProstitutionPed, i, false)
+                end
+                DeletePed(ProstitutionPed)
+                SpawnedProstit = false
+            end
+        end
+    end
+end)
