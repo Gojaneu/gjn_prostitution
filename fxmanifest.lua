@@ -2,7 +2,7 @@ fx_version 'adamant'
 game 'gta5' 
 author 'GJN SCRIPTS'
 description 'Prostitution Script by GJN SCRIPTS'
-version '1.1'
+version '1.1.2'
 
 lua54 'yes'
 
